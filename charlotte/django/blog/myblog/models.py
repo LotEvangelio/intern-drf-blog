@@ -1,43 +1,48 @@
 from django.db import models
-STATUS_CHOICES = (('published', 'Published'), ('draft', 'Draft'), ('archived', 'Archived'),)
+from versatileimagefield.fields import VersatileImageField
 # Create your models here.
+
+POST_STATUS = (('published', 'Published'),('draft', 'Draft'),('archived', 'Archived'),)
+
 class Post(models.Model):
-    title = models.CharField(max_length=150)
-    sub_Title = models.CharField(max_length=150)
-    banner_Photo = models.ImageField(upload_to = 'static/media')
+    STATUS_CHOICES = (('published', 'Published'), ('draft', 'Draft'), ('archived', 'Archived'),)
+
+    title = models.CharField(max_length=200)
+    sub_title = models.CharField(max_length=200)
+    banner_photo = VersatileImageField()
     body = models.TextField()
     date_created = models.DateTimeField(auto_now_add=True)
+    date_modified = models.DateTimeField(auto_now_add=True)
     category = models.ForeignKey('Category', on_delete=models.CASCADE)
-    tags = models.ManyToManyField('Tag',related_name="Post")
-    status = models.CharField(max_length=10, default='published', choices=STATUS_CHOICES)
+    tags = models.ManyToManyField('Tag')
+    status = models.CharField(max_length=10, choices=POST_STATUS, default='draft')
 
     def __str__(self):
         return '{}'.format(self.title)
+
+class Tag(models.Model):
+    title                   = models.CharField(max_length=120)
+    date_created            = models.DateTimeField(auto_now_add=True)
+    date_modified           = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return '{}'.format(self.title)
+
 
 class Category(models.Model):
-   title                   = models.CharField(max_length=120)
-   date_created            = models.DateTimeField(auto_now_add=True)
-   date_modified           = models.DateTimeField(auto_now=True)
-
-   def __str__(self):
-       return '{}'.format(self.title)
-        
-class Tag(models.Model):
-   title                   = models.CharField(max_length=120)
-   date_created            = models.DateTimeField(auto_now_add=True)
-   date_modified           = models.DateTimeField(auto_now=True)
-
-   def __str__(self):
-       return '{}'.format(self.title)
-
-   class Meta:
-       ordering = ['title',]
-
-class Comment(models.Model):
-    post = models.ForeignKey('Post', on_delete=models.CASCADE)
-    content = models.TextField()
-    author = models.CharField(max_length=150)
-    date_created = models.DateTimeField(auto_now_add=True)
+    title                   = models.CharField(max_length=120)
+    date_created            = models.DateTimeField(auto_now_add=True)
+    date_modified           = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return '{}'.format(self.title)
+
+
+#class Comment(models.Model):
+    # post = models.ForeignKey('Post', on_delete=models.CASCADE)
+    # content = models.TextField()
+    # author = models.CharField(max_length=150)
+    # date_created = models.DateTimeField(auto_now_add=True)
+
+    # def __str__(self):
+        # return '{}'.format(self.content)

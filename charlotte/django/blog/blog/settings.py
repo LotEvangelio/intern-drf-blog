@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 """
 
 import os
+from os import path
+from decouple import config
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -39,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'myblog',
     'rest_framework',
+    'versatileimagefield',
 ]
 
 REST_FRAMEWORK = {
@@ -49,6 +52,7 @@ REST_FRAMEWORK = {
 ]
 }
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -126,4 +130,10 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
-STATIC_URL = '/static/'
+STATIC_URL = config('STATIC_URL', default='/static/')
+STATIC_ROOT = path.join(BASE_DIR, 'static')
+
+MEDIA_URL = config('MEDIA_URL', default='/media/')
+MEDIA_ROOT = path.join(BASE_DIR, 'media')
+
+CORS_ORIGIN_ALLOW_ALL = True
