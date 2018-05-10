@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src=""></script>
+    <script src="jquery.js"></script>
+  <title>Lotty's Blog</title>
+
+  <style>
+    body{
+        background-color: #ecf0f1;
+    }
+    .post,h1{
+      font-size: 20px;
+      font-size: : Courier;
+      margin-left: 100px;
+
+    }
+    .post{
+        border-radius: 35px 10px / 20px 10px;
+        min-width: 260px;
+        margin-left: 400px;
+        margin-top: auto;
+        border: 1px solid;
+        padding: 3px;
+        box-shadow: 5px;
+        max-width: 320px;
+        float: center;
+    }
+    }}}
+    .form-control{
+        border-color: black;
+        margin: 10px;
+    }
+    .sr-only{
+        font-size: small;
+    }
+    #submit{
+        margin-left: 100px;
+        border-color: #535c68;
+        size: 10px;
+        margin-bottom: 5px;
+        margin-top: 7px;
+    }
+    #text{
+        font-family: Courier;
+        text-shadow: 2px 2px 2px #aaa;
+        font-size: 15px;
+        font-weight: 100;
+        padding:1px;
+        margin-left: 10px;
+    }
+    
+  </style>
+</head>
+<body>
+
+
+<script src=""></script>
+     <script src=""></script>
+    
+
+    <div class="post" >
+         <form  method="POST" id="postform" enctype="multipart/form-data">
+            <h1>Add Post</h1>
+          
+             <div>
+                 <label for="inputtitle" class="sr-only" id="text">Title:</label>
+                 <input type="text" name="title" class="form-control" required autofocus>
+             </div>
+
+             <div>
+                 <label for="inputsub_title" class="sr-only" id="text">Subtitle:</label>
+                 <input type="text" name="sub_title" class="form-control" required autofocus>
+             </div>
+
+             <div class="thumbnails" style="width:400px;">
+                <label class="cabinet BrandHeader" id="text">Banner Photo:</label>
+                <input type="file" class="file" name="banner_photo" id="test">
+             </div>
+
+             <div>
+                <label for="inputbody" class="cabinet BrandHeader" id="text">Body:</label>
+                <textarea name="body" class="form-control" required autofocus></textarea>
+             </div>
+      
+             <div>
+                <label for="inputcategory" class="sr-only" id="text">Category:</label>
+                <select name="category" id="category"></select>
+             </div>
+
+             <div>
+                <label for="inputtags" id="text" class="sr-only" >Tags:</label>
+                <select name="tags" id="tags" multiple='multiple'></select>
+             </div>
+
+             <div>
+                <label for="inputstatus" id="text" class="sr-only">Status</label>
+                <select name="status">
+                  <option value="published">Published</option>
+                  <option value="draft">Draft</option>
+                  <option value="archived">Archived</option>
+          </select>
+
+             </div>
+
+             <button id="submit" class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
+         </form>
+     </div>
+    </div>
+
+
+
+<span id="result"></span>
+ <script src="jquery.js"></script>
+     <script src="form.js"></script> 
+    <script src="http://malsup.github.com/jquery.form.js"></script>
+    <script type="text/javascript">
+      function getCookie(name) {
+        var cookieValue = null;
+        if (document.cookie && document.cookie != '') {
+          var cookies = document.cookie.split(';');
+          for (var i = 0; i < cookies.length; i++) {
+            var cookie = jQuery.trim(cookies[i]);
+            if (cookie.substring(0, name.length + 1) == (name + '=')) {
+              cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+              break;
+              }
+            }
+        }
+        return cookieValue;
+      }
+       var URL = "http://127.0.0.1:8080/";
+    $('#tags option').click(function() {
+        $('#tags option').removeClass('selected');
+        $(this).addClass('selected');
+    });
+    $.get(URL + "tags/", function(data) {
+          console.log(data);
+          var tags = $('#tags');
+          $.each(data, function (index, value) {
+             console.log(value);
+             tags.append(
+            "<option value='"+value.id+"'>" + value.title+ "</option>"
+             );
+          });
+    });
+    $.get(URL + "categorys/", function(data) {
+          var category = $('#category');
+          $.each(data, function (index, value ){
+            console.log(value.title);
+            category.append(
+               "<option value='"+value.id+"'>" + value.title+ "</option>"
+                );
+          });
+    });
+
+    $.get(URL + "draft/", function(data) {
+          var draft = $('#draft');
+          $.each(data, function (index, value ){
+            console.log(value.title);
+            category.append(
+               "<option value='"+value.id+"'>" + value.title+ "</option>"
+                );
+          });
+    });
+
+    $.get(URL + "archived/", function(data) {
+          var archived = $('#archived');
+          $.each(data, function (index, value ){
+            console.log(value.title);
+            category.append(
+               "<option value='"+value.id+"'>" + value.title+ "</option>"
+                );
+          });
+    });
+
+      $('#submit').on('click', function (e) {
+        e.preventDefault();
+        $('#postform').ajaxSubmit({
+          url: 'http://127.0.0.1:8080/posts/',
+          type: 'POST',
+          success : function (resp) { console.log(resp); },
+          error : function (resp) { console.log(resp); }
+        });
+        $("#postform")[0].reset();
+      });
+    </script>
+
+    <script></script>
+</body>
+
+</html>

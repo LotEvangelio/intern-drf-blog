@@ -1,27 +1,24 @@
 from django.db import models
 from versatileimagefield.fields import VersatileImageField
-# Create your models here.
-
-POST_STATUS = (('published', 'Published'),('draft', 'Draft'),('archived', 'Archived'),)
 
 class Post(models.Model):
     STATUS_CHOICES = (('published', 'Published'), ('draft', 'Draft'), ('archived', 'Archived'),)
-
+    POST_STATUS = (('published', 'Published'),('draft', 'Draft'),('archived', 'Archived'),)
     title = models.CharField(max_length=200)
     sub_title = models.CharField(max_length=200)
     banner_photo = VersatileImageField()
     body = models.TextField()
-    date_created = models.DateTimeField(auto_now_add=True)
-    date_modified = models.DateTimeField(auto_now_add=True)
     category = models.ForeignKey('Category', on_delete=models.CASCADE)
     tags = models.ManyToManyField('Tag')
-    status = models.CharField(max_length=10, choices=POST_STATUS, default='draft')
+    status = models.CharField(max_length=10, choices=POST_STATUS, default='published')
+    date_created = models.DateTimeField(auto_now_add=True)
+    date_modified = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return '{}'.format(self.title)
 
 class Tag(models.Model):
-    title                   = models.CharField(max_length=120)
+    title                   = models.CharField(max_length=150)
     date_created            = models.DateTimeField(auto_now_add=True)
     date_modified           = models.DateTimeField(auto_now=True)
 
@@ -30,7 +27,7 @@ class Tag(models.Model):
 
 
 class Category(models.Model):
-    title                   = models.CharField(max_length=120)
+    title                   = models.CharField(max_length=150)
     date_created            = models.DateTimeField(auto_now_add=True)
     date_modified           = models.DateTimeField(auto_now=True)
 

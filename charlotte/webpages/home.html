@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+  <html>
+   <head>
+  	   <title>Home</title>
+    </head>
+    <header>
+      
+    </header>
+   <style type="text/css">
+       
+       ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        background-color: #333;
+    }
+
+    li {
+        float: center;
+        display: inline-block;
+        margin-left: 150px;
+    }
+
+    li a {
+        display: block;
+        color: white;
+        text-align: center;
+        padding: 8px 16px;
+        text-decoration: none;
+    }
+
+    li a:hover {
+        background-color: #111;
+    }
+         #list{
+          background-color: #f5f6fa;
+          box-shadow: 0 2px 4px 0 rgba(0, 1, 2);
+          border-radius: 25px;
+          max-width: 800px;
+          margin:auto;
+          
+       }
+     .container{
+      text-align: center;
+      border: solid;
+      border-color: black;
+      margin-bottom: 10px;
+    }
+
+   * {box-sizing: border-box;}
+  body {font-family: Courier, sans-serif;}
+  .mySlides {display: none;}
+  img {vertical-align: middle;}
+  
+  @-webkit-keyframes fade {
+    from {opacity: .4} 
+    to {opacity: 1}
+  }
+
+  @keyframes fade {
+    from {opacity: .4} 
+    to {opacity: 1}
+  }
+
+  /* On smaller screens, decrease text size */
+  @media only screen and (max-width: 300px) {
+    .text {font-size: 20px}
+  }
+   </style>
+   <body>
+    
+
+    <div id="list"></div>
+
+    <script src="jquery.js"></script>
+
+    <script type="text/javascript">
+   $.ajax({
+          type:'GET',
+          dataType:'json',
+          url:'http://127.0.0.1:8080/posts/',
+          success:function(data){
+            console.log(data)
+            var mylist=$('#list')
+            for (var i = 0; i < data.length; i ++ ){
+              console.log(data[i]);
+             var list = data[i];
+               console.log(list)
+
+                mylist.append('<div class="container"><h1>'+list.title+ '</h1><h1>'+list.sub_title+'</h1><img src="'+list.banner_photo+'"><p>'+list.body+'</p><p>'+list.category+'</p><p>'+list.tags+'</p><p>'+list.date_created+'</p><h2>'+list.date_modified+'</h2><p>'+list.status+'</p></div>' );
+          }
+         }
+        }
+       )
+      </script>
+    </body>
+</html>

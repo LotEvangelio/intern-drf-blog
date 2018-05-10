@@ -9,9 +9,7 @@ from .models import Tag, Category, Post
 from .serializers import TagSerializer, CategorySerializer, PostSerializer
 
 class TagViewSet(viewsets.ViewSet):
-    """
-    API endpoint that allows groups to be viewed or edited.
-    """
+    """API endpoint that allows groups to be viewed or edited."""
     def list(self, request):
         queryset = Tag.objects.all()
         serializer = TagSerializer(queryset, many=True)
@@ -26,9 +24,7 @@ class TagViewSet(viewsets.ViewSet):
 
 
 class CategoryViewSet(viewsets.ViewSet):
-    """
-    API endpoint that allows groups to be viewed or edited.
-    """
+    """API endpoint that allows groups to be viewed or edited."""
     def list(self, request):
         queryset = Category.objects.all()
         serializer = CategorySerializer(queryset, many=True)
@@ -41,12 +37,25 @@ class CategoryViewSet(viewsets.ViewSet):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-class PostViewSet(viewsets.ViewSet):
-    """
-    API endpoint that allows groups to be viewed or edited.
-    """
+class DraftViewSet(viewsets.ViewSet):
     def list(self, request):
-        queryset = Post.objects.all()
+        queryset = Post.objects.filter(status='draft')
+        serializer_context = {'request': request,}
+        serializer = PostSerializer(queryset, many=True, context=serializer_context)
+        return Response(serializer.data)
+
+class ArchivedViewSet(viewsets.ViewSet):
+    def list(self, request):
+        queryset = Post.objects.filter(status='archived')
+        serializer_context = {'request': request,}
+        serializer = PostSerializer(queryset, many=True, context=serializer_context)
+        return Response(serializer.data)
+
+
+class PostViewSet(viewsets.ViewSet):
+    """API endpoint that allows groups to be viewed or edited."""
+    def list(self, request):
+        queryset = Post.objects.filter(status='published')
         serializer_context = {'request': request,}
         serializer = PostSerializer(queryset, many=True, context=serializer_context)
         return Response(serializer.data)

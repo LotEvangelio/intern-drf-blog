@@ -11,20 +11,7 @@ class PostSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Post
-        fields = (
-            'title',
-            'sub_title',
-            'banner_photo',
-            'date_created',
-            'category_name',
-            'date_modified',
-            'tags',
-            'category',
-            'body',
-            'status',
-            'date_display',
-            'timesince'
-        )
+        fields = ('title','sub_title','banner_photo','date_created','category_name','date_modified','tags','category','body','status','date_display','timesince')
 
     def get_category_name(self, instance):
         return instance.category.title
@@ -38,20 +25,12 @@ class PostSerializer(serializers.ModelSerializer):
 class TagSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tag
-        fields = (
-            'title',
-            'date_created',
-            'date_modified'
-        )
+        fields = ('id','title','date_created','date_modified')
 
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
-        fields = (
-            'title',
-            'date_created',
-            'date_modified'
-        )
+        fields = ('id','title','date_created','date_modified')
 
 #class CommentSerializer(serializers.ModelSerializer):
     # class Meta:

@@ -22,9 +22,11 @@ from rest_framework import routers
 from myblog import views
 
 router = routers.DefaultRouter()
-router.register(r'post', views.PostViewSet, base_name='posts')
+router.register(r'posts', views.PostViewSet, base_name='post')
 router.register(r'tags', views.TagViewSet, base_name='tag')
 router.register(r'categorys', views.CategoryViewSet, base_name='category')
+router.register(r'draft', views.DraftViewSet, base_name='draft')
+router.register(r'archived', views.ArchivedViewSet, base_name='archived')
 #router.register(r'comments', views.CommentViewSet, base_name='comment')
 
 
